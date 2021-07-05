@@ -1,0 +1,16 @@
+{
+  "name": "generator-parser",
+  "version": "1.0.0",
+  "description": "Yeoman generator to create a standard parser project based on ANTLR and Kolasu",
+  "files": [
+    "generators"
+  ],
+  "author": "Federico Tomassetti",
+  "license": "Apache-2.0",
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^1.1.1"
+  }
+}

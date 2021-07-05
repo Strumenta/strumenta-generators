@@ -1,0 +1,97 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version "${kotlinVersion}"
+    id "org.jlleitschuh.gradle.ktlint" version "10.1.0"
+    id "antlr"
+    id "idea"
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+def generatedMain = "generated-src/antlr/main"
+def generatedMainFile = file(generatedMain)
+
+dependencies {
+    antlr "org.antlr:antlr4:$antlrVersion"
+    implementation "org.antlr:antlr4-runtime:$antlrVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+
+    implementation "org.apache.logging.log4j:log4j-api-kotlin:1.0.0"
+    implementation "org.apache.logging.log4j:log4j-api:2.12.1"
+    implementation "org.apache.logging.log4j:log4j-core:2.12.1"
+
+
+    implementation 'com.strumenta:kolasu:1.2.0-SNAPSHOT'
+
+    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlinVersion"
+    testImplementation 'junit:junit:4.12'
+}
+
+configurations.all() {
+    resolutionStrategy.force "org.antlr:antlr4-runtime:$antlrVersion"
+    resolutionStrategy.force "org.antlr:antlr4-tool:$antlrVersion"
+}
+
+generateGrammarSource {
+    inputs.files fileTree('src/main/antlr').include('**/*.g4')
+    maxHeapSize = "64m"
+    arguments += ['-package', 'com.strumenta.polyparser.rpgparser']
+    outputDirectory = file(generatedMain + "/com/strumenta/polyparser/rpgparser")
+}
+
+compileJava {
+    sourceCompatibility = "$jvmVersion"
+    targetCompatibility = "$jvmVersion"
+    dependsOn generateGrammarSource
+    source generatedMainFile, sourceSets.main.java
+}
+
+compileTestKotlin {
+    sourceCompatibility = "$jvmVersion"
+    targetCompatibility = "$jvmVersion"
+    kotlinOptions.freeCompilerArgs += ["-Xuse-experimental=kotlin.ExperimentalUnsignedTypes"]
+    kotlinOptions.jvmTarget = "$jvmVersion"
+}
+
+compileKotlin {
+    sourceCompatibility = "$jvmVersion"
+    targetCompatibility = "$jvmVersion"
+    source generatedMainFile, sourceSets.main.java, sourceSets.main.kotlin
+    kotlinOptions.jvmTarget = "$jvmVersion"
+    dependsOn generateGrammarSource
+}
+
+clean {
+    delete file(generatedMain)
+    mkdir generatedMain
+}
+
+idea {
+    module {
+        mkdir generatedMain
+        sourceDirs += generatedMainFile
+        println sourceDirs
+    }
+}
+
+tasks.withType(Test) {
+    testLogging {
+        exceptionFormat "full"
+        showCauses true
+        showExceptions true
+        showStackTraces true
+        afterSuite { desc, result ->
+            if (!desc.parent) { // will match the outermost suite
+                println "------------------------------------------------------------------------------------"
+                println "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                println "------------------------------------------------------------------------------------"
+            }
+        }
+    }
+}

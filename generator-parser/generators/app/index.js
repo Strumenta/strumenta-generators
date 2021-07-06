@@ -28,7 +28,7 @@ module.exports = class extends Generator {
                 type: "input",
                 name: "packageName",
                 message: "Package name",
-                default: `com.strumenta.${this.answers.languageName}Parser`
+                default: `com.strumenta.${this.answers.languageName.toLowerCase()}parser`
             }
         ]));
         this.answers['packageNameAsPath'] = this.answers.packageName.replace(/\./g, "/")
@@ -74,12 +74,36 @@ module.exports = class extends Generator {
         this.fs.copyTpl(
             this.templatePath("antlr/MyLanguageLexer.g4"),
             this.destinationPath(`src/main/antlr/${this.answers.languageName}Lexer.g4`),
-            { languageName: this.answers.languageName }
+            this.answers
         );
         this.fs.copyTpl(
             this.templatePath("antlr/MyLanguageParser.g4"),
             this.destinationPath(`src/main/antlr/${this.answers.languageName}Parser.g4`),
-            { languageName: this.answers.languageName }
+            this.answers
+        );
+
+        // Kotlin code
+        this.fs.copyTpl(
+            this.templatePath("kotlin-code/ast/ast.kt"),
+            this.destinationPath(`src/main/kotlin/${this.answers.packageNameAsPath}/ast/ast.kt`),
+            this.answers
+        );
+        this.fs.copyTpl(
+            this.templatePath("kotlin-code/parsetreetoast/conversions.kt"),
+            this.destinationPath(`src/main/kotlin/${this.answers.packageNameAsPath}/parsetreetoast/conversions.kt`),
+            this.answers
+        );
+        this.fs.copyTpl(
+            this.templatePath("kotlin-code/facade.kt"),
+            this.destinationPath(`src/main/kotlin/${this.answers.packageNameAsPath}/facade.kt`),
+            this.answers
+        );
+
+        // Kotlin test code
+        this.fs.copyTpl(
+            this.templatePath("kotlin-test-code/MyLanguageParserTest.kt"),
+            this.destinationPath(`src/test/kotlin/${this.answers.packageNameAsPath}/${this.answers.languageName}ParserTest.kt`),
+            this.answers
         );
     }
 };

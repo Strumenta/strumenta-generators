@@ -4,10 +4,10 @@ import com.strumenta.kolasu.model.*
 
 data class CompilationUnit(
     val helloStmts: List<HelloStmt>,
-    override val specifiedPosition: Position?
+    override val specifiedPosition: Position? = null
 ) : Node(specifiedPosition)
 
 data class HelloStmt(
-    name: String,
-    override val specifiedPosition: Position?
+    val name: String,
+    override val specifiedPosition: Position? = null
 ) : Node(specifiedPosition)

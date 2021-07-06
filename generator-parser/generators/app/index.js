@@ -33,14 +33,30 @@ module.exports = class extends Generator {
 
     async writing() {
         this.fs.copyTpl(
-            this.templatePath('gradle.properties'),
+            this.templatePath('project-conf/gradle.properties'),
             this.destinationPath('gradle.properties'),
             { }
         );
         this.fs.copyTpl(
-            this.templatePath('build.gradle'),
+            this.templatePath('project-conf/build.gradle'),
             this.destinationPath('build.gradle'),
             { }
+        );
+        const files = [
+            "gradlew",
+            "gradlew.bat",
+            "gradle/wrapper/gradle-wrapper.properties"
+        ];
+        for (let i = 0; i < files.length; i++) {
+            this.fs.copyTpl(
+                this.templatePath(`gradle-wrapper/${files[i]}`),
+                this.destinationPath(files[i]),
+                this.props
+            );
+        }
+        this.fs.copy(
+            this.templatePath("gradle-wrapper/gradle/wrapper/gradle-wrapper.jar"),
+            this.destinationPath("gradle/wrapper/gradle-wrapper.jar")
         );
     }
 };

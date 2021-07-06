@@ -105,5 +105,12 @@ module.exports = class extends Generator {
             this.destinationPath(`src/test/kotlin/${this.answers.packageNameAsPath}/${this.answers.languageName}ParserTest.kt`),
             this.answers
         );
+
+        // Git
+        this.fs.copy(
+            this.templatePath("git/gitignore"),
+            this.destinationPath(`.gitignore`),
+            this.answers
+        );
     }
 };

@@ -24,12 +24,10 @@ dependencies {
     implementation "org.apache.logging.log4j:log4j-api:2.12.1"
     implementation "org.apache.logging.log4j:log4j-core:2.12.1"
 
-
     implementation 'com.strumenta:kolasu:1.2.0-SNAPSHOT'
 
     testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
-    implementation "org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlinVersion"
     testImplementation 'junit:junit:4.12'
 }
 
@@ -41,8 +39,8 @@ configurations.all() {
 generateGrammarSource {
     inputs.files fileTree('src/main/antlr').include('**/*.g4')
     maxHeapSize = "64m"
-    arguments += ['-package', 'com.strumenta.polyparser.rpgparser']
-    outputDirectory = file(generatedMain + "/com/strumenta/polyparser/rpgparser")
+    arguments += ['-package', '<%= packageName %>']
+    outputDirectory = file(generatedMain + "/<%= packageNameAsPath %>")
 }
 
 compileJava {
@@ -55,7 +53,6 @@ compileJava {
 compileTestKotlin {
     sourceCompatibility = "$jvmVersion"
     targetCompatibility = "$jvmVersion"
-    kotlinOptions.freeCompilerArgs += ["-Xuse-experimental=kotlin.ExperimentalUnsignedTypes"]
     kotlinOptions.jvmTarget = "$jvmVersion"
 }
 
@@ -80,18 +77,3 @@ idea {
     }
 }
 
-tasks.withType(Test) {
-    testLogging {
-        exceptionFormat "full"
-        showCauses true
-        showExceptions true
-        showStackTraces true
-        afterSuite { desc, result ->
-            if (!desc.parent) { // will match the outermost suite
-                println "------------------------------------------------------------------------------------"
-                println "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
-                println "------------------------------------------------------------------------------------"
-            }
-        }
-    }
-}

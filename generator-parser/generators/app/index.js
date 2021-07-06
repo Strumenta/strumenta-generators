@@ -19,19 +19,24 @@ module.exports = class extends Generator {
         this.answers = await this.prompt([
             {
                 type: "input",
-                name: "name",
-                message: "Your project name",
-                default: this.appname // Default to current folder name
-            },
+                name: "languageName",
+                message: "Language name",
+                default: this.appname
+            }]);
+        Object.assign(this.answers, await this.prompt([
             {
-                type: "confirm",
-                name: "cool",
-                message: "Would you like to enable the Cool feature?"
+                type: "input",
+                name: "packageName",
+                message: "Package name",
+                default: `com.strumenta.${this.answers.languageName}Parser`
             }
-        ]);
+        ]));
+        this.answers['packageNameAsPath'] = this.answers.packageName.replace(/\./g, "/")
+        //console.log("answers", this.answers);
     }
 
     async writing() {
+        // Project configuration
         this.fs.copyTpl(
             this.templatePath('project-conf/gradle.properties'),
             this.destinationPath('gradle.properties'),
@@ -40,8 +45,10 @@ module.exports = class extends Generator {
         this.fs.copyTpl(
             this.templatePath('project-conf/build.gradle'),
             this.destinationPath('build.gradle'),
-            { }
+            this.answers
         );
+
+        // Gradle wrapper
         const files = [
             "gradlew",
             "gradlew.bat",
@@ -57,6 +64,22 @@ module.exports = class extends Generator {
         this.fs.copy(
             this.templatePath("gradle-wrapper/gradle/wrapper/gradle-wrapper.jar"),
             this.destinationPath("gradle/wrapper/gradle-wrapper.jar")
+        );
+
+        // Language definition
+        this.fs.copy(
+            this.templatePath("antlr/.gitignore"),
+            this.destinationPath("src/main/antlr/.gitignore")
+        );
+        this.fs.copyTpl(
+            this.templatePath("antlr/MyLanguageLexer.g4"),
+            this.destinationPath(`src/main/antlr/${this.answers.languageName}Lexer.g4`),
+            { languageName: this.answers.languageName }
+        );
+        this.fs.copyTpl(
+            this.templatePath("antlr/MyLanguageParser.g4"),
+            this.destinationPath(`src/main/antlr/${this.answers.languageName}Parser.g4`),
+            { languageName: this.answers.languageName }
         );
     }
 };

@@ -7,15 +7,15 @@
     "generators"
   ],
   "author": {
-    "name" : "Federico Tomassetti",
-    "url" : "https://strumenta.com/"
+    "name": "Federico Tomassetti",
+    "url": "https://strumenta.com/"
   },
   "license": "Apache-2.0",
   "keywords": [
     "yeoman-generator"
   ],
   "dependencies": {
-    "yeoman-generator": "^1.1.1"
+    "yeoman-generator": "^5.4.0"
   },
   "repository": {
     "type": "git",

@@ -101,8 +101,23 @@ module.exports = class extends Generator {
 
         // Kotlin test code
         this.fs.copyTpl(
-            this.templatePath("kotlin-test-code/MyLanguageParserTest.kt"),
-            this.destinationPath(`src/test/kotlin/${this.answers.packageNameAsPath}/${this.answers.languageName}ParserTest.kt`),
+            this.templatePath("kotlin-test-code/MyLanguageLexerTest.kt"),
+            this.destinationPath(`src/test/kotlin/${this.answers.packageNameAsPath}/${this.answers.languageName}LexerTest.kt`),
+            this.answers
+        );
+        this.fs.copyTpl(
+            this.templatePath("kotlin-test-code/MyLanguageFirstStageParserTest.kt"),
+            this.destinationPath(`src/test/kotlin/${this.answers.packageNameAsPath}/${this.answers.languageName}FirstStageParserTest.kt`),
+            this.answers
+        );
+        this.fs.copyTpl(
+            this.templatePath("kotlin-test-code/MyLanguageKolasuParserTest.kt"),
+            this.destinationPath(`src/test/kotlin/${this.answers.packageNameAsPath}/${this.answers.languageName}KolasuParserTest.kt`),
+            this.answers
+        );
+        this.fs.copyTpl(
+            this.templatePath("kotlin-test-code/example1.hello"),
+            this.destinationPath(`src/test/resources/example1.hello`),
             this.answers
         );
 

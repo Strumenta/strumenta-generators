@@ -37,8 +37,6 @@ class <%= languageName %>LexerTest {
         assertEquals(true, result.issues.isEmpty())
         assertEquals(3, result.tokens.size)
 
-        assertEquals(3, result.tokens.size)
-
         var i=0
         assertEquals(<%= languageName %>Lexer.HELLO, result.tokens[i].type)
         assertEquals("hello", result.tokens[i].text)

@@ -68,7 +68,7 @@ module.exports = class extends Generator {
 
         // Language definition
         this.fs.copy(
-            this.templatePath("antlr/.gitignore"),
+            this.templatePath("antlr/gitignore"),
             this.destinationPath("src/main/antlr/.gitignore")
         );
         this.fs.copyTpl(

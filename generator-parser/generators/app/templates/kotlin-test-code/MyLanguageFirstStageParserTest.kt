@@ -1,9 +1,6 @@
 package <%= packageName %>
 
-import com.strumenta.kolasu.parsing.toParseTree
 import com.strumenta.kolasu.testing.assertParseTreeStr
-import <%= packageName %>.ast.CompilationUnit
-import <%= packageName %>.ast.HelloStmt
 import org.junit.Test
 import kotlin.test.assertEquals
 

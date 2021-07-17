@@ -1,6 +1,6 @@
 {
   "name": "generator-parser",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "homepage": "https://github.com/Strumenta/strumenta-generators/blob/master/Readme.md",
   "description": "Yeoman generator to create a standard parser project based on ANTLR and Kolasu",
   "files": [

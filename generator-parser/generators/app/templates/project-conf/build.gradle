@@ -76,3 +76,10 @@ idea {
     }
 }
 
+ktlint {
+    version = "0.41.0"
+    verbose = true
+    outputToConsole = true
+    enableExperimentalRules = true
+    disabledRules = ["no-wildcard-imports", "experimental:argument-list-wrapping"]
+}

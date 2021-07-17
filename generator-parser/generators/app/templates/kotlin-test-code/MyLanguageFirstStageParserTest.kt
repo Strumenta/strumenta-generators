@@ -12,8 +12,8 @@ class <%= languageName %>FirstStageParserTest {
     @Test
     fun parseExample1FromString() {
         val code = "hello John"
-        val parserFacade = <%= languageName %>KolasuParserFacade()
-        val result = parserFacade.parseFirstStage(code)
+        val kolasuParser = <%= languageName %>KolasuParser()
+        val result = kolasuParser.parseFirstStage(code)
         assertEquals(true, result.correct)
         assertEquals(true, result.issues.isEmpty())
 
@@ -27,8 +27,8 @@ class <%= languageName %>FirstStageParserTest {
 
     @Test
     fun parseExample1FromFile() {
-        val parserFacade = <%= languageName %>KolasuParserFacade()
-        val result = parserFacade.parseFirstStage(this.javaClass.getResourceAsStream("/example1.hello"))
+        val kolasuParser = <%= languageName %>KolasuParser()
+        val result = kolasuParser.parseFirstStage(this.javaClass.getResourceAsStream("/example1.hello"))
         assertEquals(true, result.correct)
         assertEquals(true, result.issues.isEmpty())
 

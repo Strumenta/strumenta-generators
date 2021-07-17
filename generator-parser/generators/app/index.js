@@ -94,8 +94,8 @@ module.exports = class extends Generator {
             this.answers
         );
         this.fs.copyTpl(
-            this.templatePath("kotlin-code/facade.kt"),
-            this.destinationPath(`src/main/kotlin/${this.answers.packageNameAsPath}/facade.kt`),
+            this.templatePath(`kotlin-code/facade.kt`),
+            this.destinationPath(`src/main/kotlin/${this.answers.packageNameAsPath}/${this.answers.languageName}KolasuParser.kt`),
             this.answers
         );
 

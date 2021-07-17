@@ -8,7 +8,7 @@ import org.antlr.v4.runtime.Lexer
 import org.antlr.v4.runtime.TokenStream
 import java.io.InputStream
 
-class <%= languageName %>KolasuParserFacade : KolasuParser<CompilationUnit, <%= languageName %>Parser, <%= languageName %>Parser.CompilationUnitContext>() {
+class <%= languageName %>KolasuParser : KolasuParser<CompilationUnit, <%= languageName %>Parser, <%= languageName %>Parser.CompilationUnitContext>() {
 
     override fun createANTLRLexer(inputStream: InputStream): Lexer {
         return <%= languageName %>Lexer(CharStreams.fromStream(inputStream))

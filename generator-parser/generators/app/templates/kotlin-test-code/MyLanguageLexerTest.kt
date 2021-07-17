@@ -11,8 +11,8 @@ class <%= languageName %>LexerTest {
     @Test
     fun lexExample1FromString() {
         val code = "hello John"
-        val parserFacade = <%= languageName %>KolasuParserFacade()
-        val result = parserFacade.lex(code)
+        val kolasuParser = <%= languageName %>KolasuParser()
+        val result = kolasuParser.lex(code)
         assertEquals(true, result.correct)
         assertEquals(true, result.issues.isEmpty())
         assertEquals(3, result.tokens.size)
@@ -31,8 +31,8 @@ class <%= languageName %>LexerTest {
 
     @Test
     fun lexExample1FromFile() {
-        val parserFacade = <%= languageName %>KolasuParserFacade()
-        val result = parserFacade.lex(this.javaClass.getResourceAsStream("/example1.hello"))
+        val kolasuParser = <%= languageName %>KolasuParser()
+        val result = kolasuParser.lex(this.javaClass.getResourceAsStream("/example1.hello"))
         assertEquals(true, result.correct)
         assertEquals(true, result.issues.isEmpty())
         assertEquals(3, result.tokens.size)

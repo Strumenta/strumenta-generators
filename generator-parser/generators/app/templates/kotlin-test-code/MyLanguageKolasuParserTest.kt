@@ -4,6 +4,7 @@ import <%= packageName %>.ast.CompilationUnit
 import <%= packageName %>.ast.HelloStmt
 import org.junit.Test
 import kotlin.test.assertEquals
+import com.strumenta.kolasu.testing.assertASTsAreEqual
 
 class <%= languageName %>KolasuParserTest {
 
@@ -14,7 +15,7 @@ class <%= languageName %>KolasuParserTest {
         val result = kolasuParser.parse(code, considerPosition = false)
         assertEquals(true, result.correct)
         assertEquals(true, result.issues.isEmpty())
-        assertEquals(CompilationUnit(listOf(HelloStmt("John"))), result.root)
+        assertASTsAreEqual(CompilationUnit(listOf(HelloStmt("John"))), result.root!!)
     }
 
     @Test
@@ -24,6 +25,6 @@ class <%= languageName %>KolasuParserTest {
                 considerPosition = false)
         assertEquals(true, result.correct)
         assertEquals(true, result.issues.isEmpty())
-        assertEquals(CompilationUnit(listOf(HelloStmt("John"))), result.root)
+        assertASTsAreEqual(CompilationUnit(listOf(HelloStmt("John"))), result.root!!)
     }
 }
